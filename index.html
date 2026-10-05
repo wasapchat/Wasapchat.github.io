@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Herio AI · Assistant WhatsApp</title>
+<meta name="description" content="Assistant WhatsApp intelligent : réponses 24/7, envoi de produits, localisation, gestion des clients. Herio AI.">
+<style>
+:root{--g1:#0b6b2c;--g2:#13a23f;--g3:#25d366;--dark:#06280f;--mint:#eafbef;--mint2:#d6f5df;--ink:#0d1f14;--muted:#4a6355;--white:#fff;--gold:#ffd23f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f4fff7,#fff 40%);line-height:1.6;overflow-x:hidden}
+[dir=rtl] body{font-family:Tahoma,'Segoe UI',Arial,sans-serif}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1150px;margin:auto;padding:0 18px}
+section{padding:70px 0}
+h2{font-size:clamp(1.6rem,4vw,2.4rem);color:var(--dark);text-align:center;margin-bottom:10px}
+.sub{text-align:center;color:var(--muted);max-width:640px;margin:0 auto 38px}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--mint2)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:10px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--g1);font-size:1.15rem}
+.logo i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--g2),var(--g3));display:grid;place-items:center;color:#fff;font-style:normal}
+nav.links{display:flex;gap:20px;font-weight:600;font-size:.92rem}
+nav.links a:hover{color:var(--g2)}
+.right{display:flex;align-items:center;gap:8px}
+.lang{display:flex;gap:4px}
+.lang button{border:2px solid transparent;background:none;border-radius:6px;padding:2px;cursor:pointer;line-height:0}
+.lang button.on{border-color:var(--g3)}
+.lang img{width:26px;height:18px;border-radius:3px;object-fit:cover}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:50px;font-weight:700;border:0;cursor:pointer;font-size:1rem;transition:.25s}
+.btn-g{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 8px 22px rgba(19,162,63,.35)}
+.btn-g:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(19,162,63,.5)}
+.btn-o{background:#fff;color:var(--g1);border:2px solid var(--g2)}
+.btn-o:hover{background:var(--mint)}
+.btn.sm{padding:9px 18px;font-size:.88rem}
+@media(max-width:860px){nav.links{display:none}}
+/* hero */
+.hero{background:radial-gradient(circle at 80% 20%,var(--mint2),transparent 55%),linear-gradient(180deg,#f0fff4,#fff);position:relative;overflow:hidden;padding:60px 0 80px}
+.hero::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-120px;height:200px;background:linear-gradient(90deg,var(--g1),var(--g3));border-radius:50% 50% 0 0;opacity:.12}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.badge{display:inline-block;background:var(--mint2);color:var(--g1);font-weight:700;padding:6px 16px;border-radius:30px;font-size:.85rem;margin-bottom:16px}
+.hero h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.15;color:var(--dark);margin-bottom:16px}
+.hero h1 span{background:linear-gradient(90deg,var(--g1),var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:1.1rem;margin-bottom:26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap}
+.stats b{display:block;font-size:1.8rem;color:var(--g1)}
+.stats small{color:var(--muted)}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr;text-align:center}.cta,.stats{justify-content:center}}
+/* phone */
+.phone{width:280px;margin:auto;background:#111;border-radius:36px;padding:10px;box-shadow:0 30px 60px rgba(6,40,15,.35);animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+.screen{background:#e5ddd5;border-radius:28px;overflow:hidden;height:440px;display:flex;flex-direction:column}
+.ph-top{background:var(--g1);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:.9rem}
+.ph-top i{width:30px;height:30px;border-radius:50%;background:var(--g3);display:grid;place-items:center;font-style:normal}
+.ph-top small{display:block;font-weight:400;font-size:.7rem;opacity:.85}
+.msgs{flex:1;padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.m{max-width:80%;padding:8px 12px;border-radius:12px;font-size:.82rem;opacity:0;transform:translateY(10px);animation:in .5s forwards;color:#111}
+.m.in{background:#fff;align-self:flex-start;border-top-left-radius:2px}
+.m.out{background:#dcf8c6;align-self:flex-end;border-top-right-radius:2px}
+[dir=rtl] .m.in{align-self:flex-end}[dir=rtl] .m.out{align-self:flex-start}
+@keyframes in{to{opacity:1;transform:none}}
+/* features */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:#fff;border:1px solid var(--mint2);border-radius:20px;padding:26px;transition:.3s;box-shadow:0 6px 18px rgba(11,107,44,.06)}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(11,107,44,.18);border-color:var(--g3)}
+.ic{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--g1),var(--g3));display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
+.card h3{color:var(--dark);margin-bottom:6px}
+.card p{color:var(--muted);font-size:.95rem}
+/* steps */
+.band{background:linear-gradient(135deg,var(--dark),var(--g1));color:#fff}
+.band h2{color:#fff}.band .sub{color:#c9ecd5}
+.step{text-align:center;padding:10px}
+.num{width:60px;height:60px;border-radius:50%;background:var(--g3);color:var(--dark);font-weight:800;font-size:1.5rem;display:grid;place-items:center;margin:0 auto 12px}
+.step p{color:#c9ecd5}
+/* offer */
+.offer{max-width:560px;margin:auto;background:#fff;border-radius:28px;padding:38px 30px;text-align:center;border:3px solid var(--g3);box-shadow:0 24px 60px rgba(19,162,63,.25);position:relative}
+.ribbon{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--dark);font-weight:800;padding:6px 22px;border-radius:30px;white-space:nowrap}
+.price{font-size:3.4rem;font-weight:800;color:var(--g1);margin:14px 0 6px}
+.price small{font-size:1.2rem}
+.offer ul{list-style:none;text-align:start;margin:18px 0 22px}
+.offer li{padding:7px 0;border-bottom:1px dashed var(--mint2)}
+.offer li::before{content:"✔";color:var(--g2);margin-inline-end:10px;font-weight:700}
+.timer{display:flex;justify-content:center;gap:10px;margin:16px 0}
+.timer div{background:var(--dark);color:#fff;border-radius:12px;padding:8px 12px;min-width:58px}
+.timer b{display:block;font-size:1.4rem;color:var(--g3)}
+.timer small{font-size:.7rem}
+/* reviews */
+.stars{color:var(--gold);font-size:1.3rem;letter-spacing:2px}
+.rv{background:#fff;border:1px solid var(--mint2);border-radius:18px;padding:20px}
+.rv b{color:var(--dark)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);background:var(--mint);padding:26px;border-radius:18px}
+.rform{max-width:560px;margin:30px auto 0;background:var(--mint);padding:22px;border-radius:20px}
+.star-in{display:flex;gap:4px;justify-content:center;margin-bottom:10px;direction:ltr}
+.star-in span{font-size:2rem;cursor:pointer;color:#bcd9c5;transition:.15s}
+.star-in span.on{color:var(--gold)}
+/* faq */
+details{background:#fff;border:1px solid var(--mint2);border-radius:14px;padding:16px 20px;margin-bottom:12px;max-width:800px;margin-inline:auto}
+summary{font-weight:700;cursor:pointer;color:var(--dark)}
+details p{margin-top:10px;color:var(--muted)}
+/* form */
+.fbox{max-width:720px;margin:auto;background:#fff;border-radius:26px;padding:34px;box-shadow:0 20px 50px rgba(11,107,44,.15);border:1px solid var(--mint2)}
+label{display:block;font-weight:700;margin:14px 0 6px;color:var(--dark);font-size:.92rem}
+input,select,textarea{width:100%;padding:13px 15px;border:2px solid var(--mint2);border-radius:12px;font:inherit;background:#fbfffc}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g3)}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;align-items:center;gap:6px;margin:0;font-weight:600;background:var(--mint);padding:8px 14px;border-radius:30px;cursor:pointer;font-size:.85rem}
+.checks input{width:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+.ok{display:none;margin-top:14px;background:var(--mint2);color:var(--g1);padding:12px;border-radius:12px;text-align:center;font-weight:700}
+/* footer */
+footer{background:var(--dark);color:#bfe3cb;text-align:center;padding:34px 18px 110px}
+footer b{color:#fff}
+/* floating */
+.fl{position:fixed;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:12px}
+.fl.r{right:16px}.fl.l{left:16px}
+.fb{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:1.6rem;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.3);transition:.2s;border:0;cursor:pointer}
+.fb:hover{transform:scale(1.12)}
+.wa{background:#25d366;animation:pulse 2s infinite}.call{background:#0b6b2c}.gps{background:#1a73e8}.chatb{background:linear-gradient(135deg,var(--g1),var(--g3))}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.7)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+/* chat */
+#chat{position:fixed;left:16px;bottom:90px;width:320px;max-width:calc(100vw - 32px);background:#fff;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);z-index:70;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--mint2)}
+#chat.open{display:flex}
+.ch{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;padding:14px;font-weight:700;display:flex;justify-content:space-between}
+.ch span{cursor:pointer}
+#cm{height:260px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f4fff7}
+.b{padding:9px 13px;border-radius:14px;max-width:85%;font-size:.88rem}
+.b.bot{background:#fff;border:1px solid var(--mint2);align-self:flex-start}
+.b.me{background:var(--g2);color:#fff;align-self:flex-end}
+[dir=rtl] .b.bot{align-self:flex-end}[dir=rtl] .b.me{align-self:flex-start}
+.cin{display:flex;border-top:1px solid var(--mint2)}
+.cin input{border:0;border-radius:0}
+.cin button{border:0;background:var(--g2);color:#fff;padding:0 18px;cursor:pointer;font-size:1.1rem}
+/* popup */
+#pop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90;display:none;place-items:center;padding:18px}
+#pop.open{display:grid}
+.pb{background:#fff;border-radius:24px;padding:34px 28px;text-align:center;max-width:400px;position:relative;border:3px solid var(--g3)}
+.pb .x{position:absolute;top:10px;right:16px;font-size:1.6rem;cursor:pointer}
+.rev{opacity:0;transform:translateY(30px);transition:.7s}
+.rev.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo"><i>💬</i><span>Herio AI</span></a>
+    <nav class="links">
+      <a href="#features" data-i="nav1"></a><a href="#how" data-i="nav2"></a><a href="#offer" data-i="nav3"></a><a href="#reviews" data-i="nav4"></a><a href="#contact" data-i="nav5"></a>
+    </nav>
+    <div class="right">
+      <div class="lang" id="lang">
+        <button data-l="fr"><img src="https://flagcdn.com/w40/fr.png" alt="FR"></button>
+        <button data-l="ar"><img src="https://flagcdn.com/w40/ma.png" alt="AR"></button>
+        <button data-l="es"><img src="https://flagcdn.com/w40/es.png" alt="ES"></button>
+        <button data-l="en"><img src="https://flagcdn.com/w40/gb.png" alt="EN"></button>
+      </div>
+      <a class="btn btn-g sm" href="#contact" data-i="ctaTop"></a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="badge" data-i="badge"></span>
+      <h1><span data-i="h1a"></span> <span data-i="h1b" style="display:inline"></span></h1>
+      <p data-i="hsub"></p>
+      <div class="cta">
+        <a class="btn btn-g" href="#contact" data-i="hc1"></a>
+        <a class="btn btn-o" href="#" onclick="openWA();return false" data-i="hc2"></a>
+      </div>
+      <div class="stats">
+        <div><b data-count="24">0</b><small data-i="s1"></small></div>
+        <div><b data-count="3">0</b><small data-i="s2"></small></div>
+        <div><b data-count="100">0</b><small data-i="s3"></small></div>
+      </div>
+    </div>
+    <div class="phone"><div class="screen">
+      <div class="ph-top"><i>🤖</i><div>Assistant<small>en ligne · online</small></div></div>
+      <div class="msgs" id="pm"></div>
+    </div></div>
+  </div>
+</section>
+
+<section id="features"><div class="wrap">
+  <h2 class="rev" data-i="ft"></h2><p class="sub rev" data-i="fs"></p>
+  <div class="grid">
+    <div class="card rev"><div class="ic">⏰</div><h3 data-i="f1t"></h3><p data-i="f1d"></p></div>
+    <div class="card rev"><div class="ic">🎙️</div><h3 data-i="f2t"></h3><p data-i="f2d"></p></div>
+    <div class="card rev"><div class="ic">🛍️</div><h3 data-i="f3t"></h3><p data-i="f3d"></p></div>
+    <div class="card rev"><div class="ic">📍</div><h3 data-i="f4t"></h3><p data-i="f4d"></p></div>
+    <div class="card rev"><div class="ic">💬</div><h3 data-i="f5t"></h3><p data-i="f5d"></p></div>
+    <div class="card rev"><div class="ic">🔔</div><h3 data-i="f6t"></h3><p data-i="f6d"></p></div>
+    <div class="card rev"><div class="ic">🗂️</div><h3 data-i="f7t"></h3><p data-i="f7d"></p></div>
+    <div class="card rev"><div class="ic">📈</div><h3 data-i="f8t"></h3><p data-i="f8d"></p></div>
+  </div>
+</div></section>
+
+<section class="band" id="how"><div class="wrap">
+  <h2 class="rev" data-i="ht"></h2><p class="sub rev" data-i="hs"></p>
+  <div class="grid">
+    <div class="step rev"><div class="num">1</div><h3 data-i="st1"></h3><p data-i="sd1"></p></div>
+    <div class="step rev"><div class="num">2</div><h3 data-i="st2"></h3><p data-i="sd2"></p></div>
+    <div class="step rev"><div class="num">3</div><h3 data-i="st3"></h3><p data-i="sd3"></p></div>
+  </div>
+</div></section>
+
+<section id="offer"><div class="wrap">
+  <h2 class="rev" data-i="ot"></h2><p class="sub rev" data-i="os"></p>
+  <div class="offer rev">
+    <div class="ribbon" data-i="orb"></div>
+    <div class="price">500 <small>DH</small></div>
+    <ul>
+      <li data-i="o1"></li><li data-i="o2"></li><li data-i="o3"></li><li data-i="o4"></li><li data-i="o5"></li>
+    </ul>
+    <div class="timer">
+      <div><b id="th">00</b><small data-i="tH"></small></div>
+      <div><b id="tm">00</b><small data-i="tM"></small></div>
+      <div><b id="ts">00</b><small data-i="tS"></small></div>
+    </div>
+    <a class="btn btn-g" href="#" onclick="openWA();return false" data-i="ob"></a>
+  </div>
+</div></section>
+
+<section id="reviews" style="background:var(--mint)"><div class="wrap">
+  <h2 class="rev" data-i="rt"></h2><p class="sub rev" data-i="rs"></p>
+  <div class="grid" id="rlist"></div>
+  <div class="rform">
+    <div class="star-in" id="sin"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <input id="rn" data-p="rname" style="margin-bottom:10px">
+    <textarea id="rc" rows="3" data-p="rcom"></textarea>
+    <button class="btn btn-g" style="width:100%;margin-top:12px" onclick="addReview()" data-i="rbtn"></button>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2 class="rev" data-i="qt"></h2><br>
+  <details><summary data-i="q1"></summary><p data-i="a1"></p></details>
+  <details><summary data-i="q2"></summary><p data-i="a2"></p></details>
+  <details><summary data-i="q3"></summary><p data-i="a3"></p></details>
+  <details><summary data-i="q4"></summary><p data-i="a4"></p></details>
+</div></section>
+
+<section id="contact" style="background:linear-gradient(180deg,#fff,var(--mint))"><div class="wrap">
+  <h2 class="rev" data-i="ct"></h2><p class="sub rev" data-i="cs"></p>
+  <form class="fbox rev" id="f" onsubmit="sendForm(event)">
+    <div class="two">
+      <div><label data-i="l1"></label><input id="fn" required></div>
+      <div><label data-i="l2"></label><input id="fp" type="tel" required></div>
+    </div>
+    <div class="two">
+      <div><label data-i="l3"></label><input id="fb"></div>
+      <div><label data-i="l4"></label>
+        <select id="fs">
+          <option data-i="c1"></option><option data-i="c2"></option><option data-i="c3"></option><option data-i="c4"></option><option data-i="c5"></option><option data-i="c6"></option>
+        </select></div>
+    </div>
+    <label data-i="l5"></label>
+    <div class="checks">
+      <label><input type="checkbox" value="WhatsApp IA"> <span data-i="n1"></span></label>
+            <label><input type="checkbox" value="Pub Facebook/Instagram"> <span data-i="n3"></span></label>
+      <label><input type="checkbox" value="Catalogue produits"> <span data-i="n4"></span></label>
+      <label><input type="checkbox" value="Réservations"> <span data-i="n5"></span></label>
+    </div>
+    <label data-i="l6"></label><textarea id="fm" rows="3"></textarea>
+    <button class="btn btn-g" style="width:100%;margin-top:18px" data-i="send"></button>
+    <div class="ok" id="ok" data-i="okmsg"></div>
+  </form>
+</div></section>
+
+<footer>
+  <b>Herio AI</b><br>
+  <a href="https://HerioAi.com" target="_blank" rel="noopener">HerioAi.com</a> · <a href="tel:+212681977969">+212 681 977 969</a><br>
+  <small data-i="foot"></small>
+</footer>
+
+<div class="fl r">
+  <a class="fb wa" href="#" onclick="openWA();return false" aria-label="WhatsApp">🟢</a>
+  <a class="fb call" href="tel:+212681977969" aria-label="Call">📞</a>
+  <a class="fb gps" href="https://www.google.com/maps/search/?api=1&query=Herio+AI" target="_blank" rel="noopener" aria-label="GPS">📍</a>
+</div>
+<div class="fl l"><button class="fb chatb" onclick="toggleChat()" aria-label="Chat">🤖</button></div>
+
+<div id="chat">
+  <div class="ch"><div data-i="chT"></div><span onclick="toggleChat()">✕</span></div>
+  <div id="cm"></div>
+  <div class="cin"><input id="ci" data-p="chP" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">➤</button></div>
+</div>
+
+<div id="pop"><div class="pb"><span class="x" onclick="closePop()">×</span>
+  <h2 style="font-size:1.6rem" data-i="pt"></h2><p style="margin:12px 0 20px;color:var(--muted)" data-i="pd"></p>
+  <a class="btn btn-g" href="#" onclick="openWA();closePop();return false" data-i="pb"></a></div></div>
+
+<script>
+const PHONE="212681977969";
+const T={
+fr:{dir:'ltr',nav1:'Fonctions',nav2:'Comment ça marche',nav3:'Offre',nav4:'Avis',nav5:'Contact',ctaTop:'Devis gratuit',
+badge:'🚀 Assistant WhatsApp intelligent',h1a:'Votre assistant WhatsApp',h1b:'qui capte des clients 24h/24',
+hsub:'Il répond à vos clients, envoie vos produits, partage votre localisation et organise vos contacts, même quand vous êtes occupé.',
+hc1:'Demander mon devis',hc2:'Discuter sur WhatsApp',s1:'Réponses 24h/24',s2:'Étapes pour démarrer',s3:'% automatisable',
+m1:'Salam 👋 Comment puis-je vous aider ?',m2:'Je voudrais connaître vos prix',m3:'Avec plaisir ! Voici le catalogue 📸 et notre localisation 📍',
+ft:'Tout ce qu’il faut pour vendre plus',fs:'Un seul outil pour répondre, présenter, organiser et relancer vos clients.',
+f1t:'Réponses 24h/24',f1d:'Répond automatiquement aux questions de vos clients, jour et nuit.',
+f2t:'Lit et répond aux vocaux',f2d:'Comprend les messages vocaux et répond même quand vous êtes occupé.',
+f3t:'Envoie vos produits',f3d:'Envoie photos, prix et détails selon la demande du client.',
+f4t:'Envoie la localisation',f4d:'Partage votre position GPS dès que le client la demande.',
+f5t:'Gère les conversations',f5d:'Suit chaque discussion selon vos instructions.',
+f6t:'Vous alerte',f6d:'Vous prévient quand un client veut vraiment vous parler.',
+f7t:'Organise vos contacts',f7d:'Classe vos clients potentiels pour ne perdre aucune vente.',
+f8t:'Fait grandir votre activité',f8d:'Plus de réponses, plus de clients satisfaits, plus de ventes.',
+ht:'Démarrez en 3 étapes',hs:'Simple, rapide, sans compétence technique.',
+st1:'Vous nous contactez',sd1:'Parlez-nous de votre activité sur WhatsApp.',st2:'Nous configurons',sd2:'Produits, prix, horaires et localisation intégrés.',st3:'Vous vendez plus',sd3:'Votre assistant travaille pour vous 24h/24.',
+ot:'Offre spéciale',os:'Automatisez vos réponses WhatsApp au meilleur prix.',orb:'🔥 OFFRE LIMITÉE',
+o1:'Configuration de vos produits et prix',o2:'Assistant WhatsApp intelligent',o3:'Envoi de photos, prix et localisation',o4:'Alertes quand un client veut vous parler',o5:'Support et accompagnement',
+tH:'Heures',tM:'Min',tS:'Sec',ob:'Profiter de l’offre',
+rt:'Avis de nos clients',rs:'Laissez votre avis, il apparaîtra ici.',rname:'Votre nom',rcom:'Votre commentaire',rbtn:'Publier mon avis',remp:'Soyez le premier à laisser un avis ⭐',
+qt:'Questions fréquentes',
+q1:'Faut-il des compétences techniques ?',a1:'Non. Nous configurons tout pour vous.',
+q2:'Combien de temps pour être prêt ?',a2:'Généralement en quelques jours après réception de vos informations.',
+q3:'Puis-je modifier mes produits et prix ?',a3:'Oui, vous pouvez nous demander des mises à jour à tout moment.',
+q4:'Quels types d’entreprises ?',a4:'Boutiques, restaurants, salles de sport, associations, services et plus.',
+ct:'Demandez votre devis gratuit',cs:'Remplissez le formulaire, nous vous répondons sur WhatsApp.',
+l1:'Nom complet',l2:'Téléphone / WhatsApp',l3:'Nom de votre entreprise',l4:'Secteur',
+c1:'Boutique / Commerce',c2:'Restaurant / Café',c3:'Sport / Association',c4:'Voitures',c5:'Services',c6:'Autre',
+l5:'Ce dont vous avez besoin',n1:'Assistant WhatsApp IA',n2:'Site web',n3:'Publicité Facebook/Instagram',n4:'Catalogue produits',n5:'Réservations',l6:'Message',
+send:'Envoyer sur WhatsApp',okmsg:'✅ Merci ! WhatsApp va s’ouvrir avec votre demande.',
+foot:'© Herio AI · Tous droits réservés',
+chT:'🤖 Assistant Herio',chP:'Écrivez votre question…',ch0:'Bonjour 👋 Posez-moi vos questions sur nos services.',
+bp:'L’offre spéciale est à 500 DH : assistant WhatsApp intelligent.',bh:'Vous nous contactez, nous configurons tout et votre assistant répond 24h/24.',bd:'Je transmets votre demande à l’équipe Herio sur WhatsApp.',bw:'👉 Continuer sur WhatsApp',
+pt:'⏳ Ne partez pas !',pd:'Offre spéciale 500 DH : assistant WhatsApp intelligent. Discutons maintenant.',pb:'Je veux l’offre',wa:'Bonjour Herio, je souhaite un assistant WhatsApp IA.'},
+ar:{dir:'rtl',nav1:'المميزات',nav2:'كيف يعمل',nav3:'العرض',nav4:'آراء',nav5:'تواصل',ctaTop:'عرض سعر مجاني',
+badge:'🚀 مساعد واتساب ذكي',h1a:'مساعد واتساب الخاص بك',h1b:'يجلب لك الزبناء 24/7',
+hsub:'يرد على زبنائك، يرسل منتجاتك، يشارك موقعك وينظم جهات الاتصال، حتى وأنت مشغول.',
+hc1:'اطلب عرض السعر',hc2:'تحدث معنا على واتساب',s1:'ردود على مدار الساعة',s2:'خطوات للبدء',s3:'% قابل للأتمتة',
+m1:'سلام 👋 كيف يمكنني مساعدتك؟',m2:'بغيت نعرف الأثمنة ديالكم',m3:'بكل سرور! هذا الكتالوج 📸 وهذا موقعنا 📍',
+ft:'كل ما تحتاجه لبيع أكثر',fs:'أداة واحدة للرد وعرض المنتجات وتنظيم الزبناء ومتابعتهم.',
+f1t:'ردود 24/7',f1d:'يجيب تلقائيًا على أسئلة الزبناء ليلًا ونهارًا.',
+f2t:'يقرأ ويجيب على الرسائل الصوتية',f2d:'يفهم الرسائل الصوتية ويرد حتى عندما تكون مشغولًا.',
+f3t:'يرسل منتجاتك',f3d:'يرسل الصور والأسعار والتفاصيل حسب طلب الزبون.',
+f4t:'يرسل الموقع',f4d:'يشارك موقعك الجغرافي عندما يطلبه الزبون.',
+f5t:'يدير المحادثات',f5d:'يتابع كل محادثة حسب تعليماتك.',
+f6t:'ينبهك',f6d:'يخبرك عندما يريد الزبون التحدث معك فعلًا.',
+f7t:'ينظم جهات الاتصال',f7d:'يصنف الزبناء المحتملين حتى لا تفقد أي عملية بيع.',
+f8t:'ينمّي نشاطك',f8d:'ردود أكثر، زبناء راضون، ومبيعات أكبر.',
+ht:'ابدأ في 3 خطوات',hs:'بسيط وسريع وبدون خبرة تقنية.',
+st1:'تتواصل معنا',sd1:'حدثنا عن نشاطك على واتساب.',st2:'نحن نجهز كل شيء',sd2:'المنتجات والأسعار والمواعيد والموقع.',st3:'تبيع أكثر',sd3:'مساعدك يعمل من أجلك 24/7.',
+ot:'عرض خاص',os:'أتمت ردودك على واتساب بأفضل سعر.',orb:'🔥 عرض محدود',
+o1:'إعداد منتجاتك وأسعارك',o2:'مساعد واتساب ذكي',o3:'إرسال الصور والأسعار والموقع',o4:'تنبيهك عندما يريد الزبون التحدث معك',o5:'دعم ومرافقة',
+tH:'ساعة',tM:'دقيقة',tS:'ثانية',ob:'استفد من العرض',
+rt:'آراء زبنائنا',rs:'اترك رأيك وسيظهر هنا.',rname:'اسمك',rcom:'تعليقك',rbtn:'انشر رأيي',remp:'كن أول من يترك رأيًا ⭐',
+qt:'أسئلة شائعة',
+q1:'هل أحتاج خبرة تقنية؟',a1:'لا. نحن نجهز كل شيء من أجلك.',
+q2:'كم يستغرق التجهيز؟',a2:'عادة بضعة أيام بعد استلام معلوماتك.',
+q3:'هل يمكنني تعديل المنتجات والأسعار؟',a3:'نعم، يمكنك طلب التحديثات في أي وقت.',
+q4:'لأي أنواع الأنشطة؟',a4:'متاجر، مطاعم، قاعات رياضة، جمعيات، خدمات وغيرها.',
+ct:'اطلب عرض سعر مجاني',cs:'املأ الاستمارة وسنرد عليك عبر واتساب.',
+l1:'الاسم الكامل',l2:'الهاتف / واتساب',l3:'اسم نشاطك',l4:'القطاع',
+c1:'متجر / تجارة',c2:'مطعم / مقهى',c3:'رياضة / جمعية',c4:'سيارات',c5:'خدمات',c6:'آخر',
+l5:'ما الذي تحتاجه',n1:'مساعد واتساب ذكي',n2:'موقع ويب',n3:'إعلانات فيسبوك/إنستغرام',n4:'كتالوج المنتجات',n5:'الحجوزات',l6:'رسالة',
+send:'إرسال عبر واتساب',okmsg:'✅ شكرًا! سيفتح واتساب مع طلبك.',
+foot:'© Herio AI · جميع الحقوق محفوظة',
+chT:'🤖 مساعد Herio',chP:'اكتب سؤالك…',ch0:'مرحبًا 👋 اسألني عن خدماتنا.',
+bp:'العرض الخاص 500 درهم: مساعد واتساب ذكي.',bh:'تتواصل معنا، نجهز كل شيء ويجيب مساعدك 24/7.',bd:'سأحول طلبك إلى فريق Herio عبر واتساب.',bw:'👉 تابع على واتساب',
+pt:'⏳ لا تغادر!',pd:'عرض خاص 500 درهم: مساعد واتساب ذكي. لنتحدث الآن.',pb:'أريد العرض',wa:'مرحبا Herio، أريد مساعد واتساب ذكي.'},
+es:{dir:'ltr',nav1:'Funciones',nav2:'Cómo funciona',nav3:'Oferta',nav4:'Opiniones',nav5:'Contacto',ctaTop:'Presupuesto gratis',
+badge:'🚀 Asistente de WhatsApp inteligente',h1a:'Tu asistente de WhatsApp',h1b:'que capta clientes 24h',
+hsub:'Responde a tus clientes, envía tus productos, comparte tu ubicación y organiza tus contactos, incluso cuando estás ocupado.',
+hc1:'Pedir presupuesto',hc2:'Hablar por WhatsApp',s1:'Respuestas 24h',s2:'Pasos para empezar',s3:'% automatizable',
+m1:'Salam 👋 ¿En qué puedo ayudarte?',m2:'Quiero saber los precios',m3:'¡Con gusto! Aquí el catálogo 📸 y nuestra ubicación 📍',
+ft:'Todo lo que necesitas para vender más',fs:'Una sola herramienta para responder, presentar, organizar y seguir a tus clientes.',
+f1t:'Respuestas 24h',f1d:'Responde automáticamente a las preguntas de tus clientes, de día y de noche.',
+f2t:'Lee y responde audios',f2d:'Entiende mensajes de voz y responde aunque estés ocupado.',
+f3t:'Envía tus productos',f3d:'Envía fotos, precios y detalles según lo que pida el cliente.',
+f4t:'Envía la ubicación',f4d:'Comparte tu ubicación GPS cuando el cliente la pide.',
+f5t:'Gestiona conversaciones',f5d:'Sigue cada conversación según tus instrucciones.',
+f6t:'Te avisa',f6d:'Te avisa cuando un cliente quiere hablar contigo de verdad.',
+f7t:'Organiza tus contactos',f7d:'Clasifica a tus clientes potenciales para no perder ninguna venta.',
+f8t:'Hace crecer tu negocio',f8d:'Más respuestas, más clientes satisfechos, más ventas.',
+ht:'Empieza en 3 pasos',hs:'Simple, rápido y sin conocimientos técnicos.',
+st1:'Nos contactas',sd1:'Cuéntanos sobre tu negocio por WhatsApp.',st2:'Lo configuramos',sd2:'Productos, precios, horarios y ubicación.',st3:'Vendes más',sd3:'Tu asistente trabaja para ti 24h.',
+ot:'Oferta especial',os:'Automatiza tus respuestas de WhatsApp al mejor precio.',orb:'🔥 OFERTA LIMITADA',
+o1:'Configuración de tus productos y precios',o2:'Asistente de WhatsApp inteligente',o3:'Envío de fotos, precios y ubicación',o4:'Avisos cuando un cliente quiere hablar contigo',o5:'Soporte y acompañamiento',
+tH:'Horas',tM:'Min',tS:'Seg',ob:'Aprovechar la oferta',
+rt:'Opiniones de clientes',rs:'Deja tu opinión y aparecerá aquí.',rname:'Tu nombre',rcom:'Tu comentario',rbtn:'Publicar mi opinión',remp:'Sé el primero en dejar una opinión ⭐',
+qt:'Preguntas frecuentes',
+q1:'¿Necesito conocimientos técnicos?',a1:'No. Lo configuramos todo por ti.',
+q2:'¿Cuánto tarda en estar listo?',a2:'Normalmente unos días después de recibir tu información.',
+q3:'¿Puedo cambiar productos y precios?',a3:'Sí, puedes pedirnos actualizaciones cuando quieras.',
+q4:'¿Qué tipos de negocio?',a4:'Tiendas, restaurantes, gimnasios, asociaciones, servicios y más.',
+ct:'Pide tu presupuesto gratis',cs:'Rellena el formulario y te respondemos por WhatsApp.',
+l1:'Nombre completo',l2:'Teléfono / WhatsApp',l3:'Nombre de tu negocio',l4:'Sector',
+c1:'Tienda / Comercio',c2:'Restaurante / Café',c3:'Deporte / Asociación',c4:'Coches',c5:'Servicios',c6:'Otro',
+l5:'Qué necesitas',n1:'Asistente WhatsApp IA',n2:'Sitio web',n3:'Publicidad Facebook/Instagram',n4:'Catálogo de productos',n5:'Reservas',l6:'Mensaje',
+send:'Enviar por WhatsApp',okmsg:'✅ ¡Gracias! Se abrirá WhatsApp con tu solicitud.',
+foot:'© Herio AI · Todos los derechos reservados',
+chT:'🤖 Asistente Herio',chP:'Escribe tu pregunta…',ch0:'Hola 👋 Pregúntame sobre nuestros servicios.',
+bp:'La oferta especial es 500 DH: asistente de WhatsApp inteligente.',bh:'Nos contactas, configuramos todo y tu asistente responde 24h.',bd:'Paso tu solicitud al equipo de Herio por WhatsApp.',bw:'👉 Continuar en WhatsApp',
+pt:'⏳ ¡No te vayas!',pd:'Oferta especial 500 DH: asistente de WhatsApp inteligente. Hablemos ahora.',pb:'Quiero la oferta',wa:'Hola Herio, quiero un asistente de WhatsApp con IA.'},
+en:{dir:'ltr',nav1:'Features',nav2:'How it works',nav3:'Offer',nav4:'Reviews',nav5:'Contact',ctaTop:'Free quote',
+badge:'🚀 Smart WhatsApp assistant',h1a:'Your WhatsApp assistant',h1b:'that wins customers 24/7',
+hsub:'It answers your customers, sends your products, shares your location and organizes your contacts, even when you are busy.',
+hc1:'Get my quote',hc2:'Chat on WhatsApp',s1:'Replies 24/7',s2:'Steps to start',s3:'% automatable',
+m1:'Salam 👋 How can I help you?',m2:'I would like to know your prices',m3:'Gladly! Here is the catalog 📸 and our location 📍',
+ft:'Everything you need to sell more',fs:'One tool to answer, present, organize and follow up with your customers.',
+f1t:'24/7 replies',f1d:'Automatically answers your customers’ questions, day and night.',
+f2t:'Reads and answers voice notes',f2d:'Understands voice messages and replies even when you are busy.',
+f3t:'Sends your products',f3d:'Sends photos, prices and details as the customer asks.',
+f4t:'Sends your location',f4d:'Shares your GPS location when the customer asks for it.',
+f5t:'Manages conversations',f5d:'Follows every chat according to your instructions.',
+f6t:'Alerts you',f6d:'Notifies you when a customer really wants to talk to you.',
+f7t:'Organizes your contacts',f7d:'Sorts your leads so you never lose a sale.',
+f8t:'Grows your business',f8d:'More replies, happier customers, more sales.',
+ht:'Start in 3 steps',hs:'Simple, fast, no technical skills needed.',
+st1:'You contact us',sd1:'Tell us about your business on WhatsApp.',st2:'We set it up',sd2:'Products, prices, hours and location.',st3:'You sell more',sd3:'Your assistant works for you 24/7.',
+ot:'Special offer',os:'Automate your WhatsApp replies at the best price.',orb:'🔥 LIMITED OFFER',
+o1:'Setup of your products and prices',o2:'Smart WhatsApp assistant',o3:'Photos, prices and location sending',o4:'Alerts when a customer wants to talk to you',o5:'Support and guidance',
+tH:'Hours',tM:'Min',tS:'Sec',ob:'Get the offer',
+rt:'Customer reviews',rs:'Leave your review and it will appear here.',rname:'Your name',rcom:'Your comment',rbtn:'Post my review',remp:'Be the first to leave a review ⭐',
+qt:'Frequently asked questions',
+q1:'Do I need technical skills?',a1:'No. We set everything up for you.',
+q2:'How long until it is ready?',a2:'Usually a few days after we receive your information.',
+q3:'Can I change products and prices?',a3:'Yes, you can ask us for updates at any time.',
+q4:'Which types of business?',a4:'Shops, restaurants, gyms, associations, services and more.',
+ct:'Get your free quote',cs:'Fill in the form and we reply on WhatsApp.',
+l1:'Full name',l2:'Phone / WhatsApp',l3:'Business name',l4:'Sector',
+c1:'Shop / Retail',c2:'Restaurant / Café',c3:'Sport / Association',c4:'Cars',c5:'Services',c6:'Other',
+l5:'What you need',n1:'WhatsApp AI assistant',n2:'Website',n3:'Facebook/Instagram ads',n4:'Product catalog',n5:'Bookings',l6:'Message',
+send:'Send on WhatsApp',okmsg:'✅ Thanks! WhatsApp will open with your request.',
+foot:'© Herio AI · All rights reserved',
+chT:'🤖 Herio assistant',chP:'Type your question…',ch0:'Hello 👋 Ask me about our services.',
+bp:'The special offer is 500 DH: smart WhatsApp assistant.',bh:'You contact us, we set everything up and your assistant replies 24/7.',bd:'I will pass your request to the Herio team on WhatsApp.',bw:'👉 Continue on WhatsApp',
+pt:'⏳ Don’t leave yet!',pd:'Special offer 500 DH: smart WhatsApp assistant. Let’s talk now.',pb:'I want the offer',wa:'Hello Herio, I would like a WhatsApp AI assistant.'}
+};
+let L='fr',rate=0;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function setLang(l){
+  L=l;const t=T[l];
+  document.documentElement.lang=l;document.documentElement.dir=t.dir;
+  $$('[data-i]').forEach(e=>{if(t[e.dataset.i]!==undefined)e.textContent=t[e.dataset.i]});
+  $$('[data-p]').forEach(e=>e.placeholder=t[e.dataset.p]);
+  $$('#lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  phoneChat();renderReviews();
+  $('#cm').innerHTML='';botSay(t.ch0);
+  try{localStorage.setItem('hl',l)}catch(e){}
+}
+$$('#lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+function waLink(txt){return 'https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt)}
+function openWA(txt){window.open(waLink(txt||T[L].wa),'_blank')}
+/* phone animation */
+function phoneChat(){
+  const box=$('#pm');box.innerHTML='';const t=T[L];
+  [['in',t.m1],['out',t.m2],['in',t.m3]].forEach((m,i)=>{
+    setTimeout(()=>{const d=document.createElement('div');d.className='m '+m[0];d.textContent=m[1];box.appendChild(d)},600+i*1300);
+  });
+}
+/* counters */
+function counters(){$$('[data-count]').forEach(e=>{const n=+e.dataset.count;let c=0;const s=Math.max(1,Math.ceil(n/40));const iv=setInterval(()=>{c=Math.min(n,c+s);e.textContent=c;if(c>=n)clearInterval(iv)},40)})}
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});
+$$('.rev').forEach(e=>io.observe(e));
+/* timer (24h cycle, resets per visitor session) */
+function tick(){
+  let end;try{end=+sessionStorage.getItem('end')}catch(e){}
+  if(!end||end<Date.now()){end=Date.now()+24*3600*1000;try{sessionStorage.setItem('end',end)}catch(e){}}
+  const d=Math.max(0,end-Date.now()),p=n=>String(n).padStart(2,'0');
+  $('#th').textContent=p(Math.floor(d/3600000));$('#tm').textContent=p(Math.floor(d%3600000/60000));$('#ts').textContent=p(Math.floor(d%60000/1000));
+}
+setInterval(tick,1000);tick();
+/* reviews: only real ones submitted by visitors (stored in this browser) */
+function getR(){try{return JSON.parse(localStorage.getItem('rv')||'[]')}catch(e){return[]}}
+function renderReviews(){
+  const l=getR(),box=$('#rlist');
+  if(!l.length){box.innerHTML='<div class="empty">'+T[L].remp+'</div>';return}
+  box.innerHTML=l.map(r=>'<div class="rv"><div class="stars">'+'★'.repeat(r.s)+'☆'.repeat(5-r.s)+'</div><p>'+esc(r.c)+'</p><b>'+esc(r.n)+'</b></div>').join('');
+}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$$('#sin span').forEach((s,i)=>s.onclick=()=>{rate=i+1;$$('#sin span').forEach((x,j)=>x.classList.toggle('on',j<rate))});
+function addReview(){
+  const n=$('#rn').value.trim(),c=$('#rc').value.trim();if(!n||!c||!rate)return;
+  const l=getR();l.unshift({n,c,s:rate});try{localStorage.setItem('rv',JSON.stringify(l.slice(0,20)))}catch(e){}
+  $('#rn').value=$('#rc').value='';rate=0;$$('#sin span').forEach(x=>x.classList.remove('on'));renderReviews();
+}
+/* form -> WhatsApp */
+function sendForm(e){
+  e.preventDefault();
+  const needs=[...$$('.checks input:checked')].map(x=>x.value).join(', ');
+  const msg=`*Nouvelle demande (HerioAi.com)*\nNom: ${$('#fn').value}\nTél: ${$('#fp').value}\nEntreprise: ${$('#fb').value}\nSecteur: ${$('#fs').value}\nBesoins: ${needs||'-'}\nMessage: ${$('#fm').value||'-'}`;
+  $('#ok').style.display='block';
+  setTimeout(()=>openWA(msg),700);
+}
+/* AI chat widget (rule-based) -> redirects to WhatsApp */
+function toggleChat(){$('#chat').classList.toggle('open')}
+function botSay(t,btn){
+  const d=document.createElement('div');d.className='b bot';d.textContent=t;
+  if(btn){d.appendChild(document.createElement('br'));const a=document.createElement('a');a.href='#';a.textContent=T[L].bw;a.style.cssText='color:#0b6b2c;font-weight:700';a.onclick=ev=>{ev.preventDefault();openWA()};d.appendChild(a)}
+  $('#cm').appendChild(d);$('#cm').scrollTop=1e5;
+}
+function sendChat(){
+  const i=$('#ci'),q=i.value.trim();if(!q)return;i.value='';
+  const m=document.createElement('div');m.className='b me';m.textContent=q;$('#cm').appendChild(m);
+  const low=q.toLowerCase(),t=T[L];
+  let a=t.bd;
+  if(/prix|tarif|combien|dh|precio|cuanto|cuánto|price|cost|how much|سعر|ثمن|بكم|شحال|درهم/.test(low))a=t.bp;
+  else if(/comment|marche|how|cómo|como|funciona|work|كيف|كيفاش/.test(low))a=t.bh;
+  setTimeout(()=>botSay(a,true),500);
+}
+/* exit popup */
+let popShown=false;
+function closePop(){$('#pop').classList.remove('open')}
+function showPop(){if(popShown)return;popShown=true;$('#pop').classList.add('open')}
+document.addEventListener('mouseout',e=>{if(e.clientY<5)showPop()});
+setTimeout(showPop,45000);
+/* init */
+let saved='fr';try{saved=localStorage.getItem('hl')||'fr'}catch(e){}
+setLang(T[saved]?saved:'fr');counters();
+</script>
+</body>
+</html>
